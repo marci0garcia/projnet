@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projnet - Profile</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="navbar">
+  <span class="logo">Projnet</span>
+  <ul class="nav-links">
+    <li><a href="/dashboard.html">Board</a></li>
+    <li><a href="/group.html">Groups &amp; Chat</a></li>
+    <li><a href="/profile.html" class="active">Profile</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn btn-secondary btn-sm" id="logoutBtn">Log Out</button>
+  </div>
+</nav>
+
+<div class="container" style="max-width:640px;">
+  <h2 style="margin-bottom:24px;">Profile &amp; Settings</h2>
+
+  <!-- Account Info -->
+  <div class="card" style="margin-bottom:24px;">
+    <h3 style="margin-bottom:20px;">Account Information</h3>
+    <p id="profileSuccess" class="success-msg hidden" style="margin-bottom:10px;"></p>
+    <p id="profileError"   class="error-msg   hidden" style="margin-bottom:10px;"></p>
+    <form id="profileForm">
+      <div class="form-group">
+        <label for="profileUsername">Username</label>
+        <input type="text"  id="profileUsername" required />
+      </div>
+      <div class="form-group">
+        <label for="profileEmail">Email</label>
+        <input type="email" id="profileEmail" required />
+      </div>
+      <div class="form-group">
+        <label for="profileBio">Bio</label>
+        <textarea id="profileBio" placeholder="Tell your team about yourself"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+
+  <!-- Change Password -->
+  <div class="card" style="margin-bottom:24px;">
+    <h3 style="margin-bottom:20px;">Security</h3>
+    <p id="pwSuccess" class="success-msg hidden" style="margin-bottom:10px;"></p>
+    <p id="pwError"   class="error-msg   hidden" style="margin-bottom:10px;"></p>
+    <form id="passwordForm">
+      <div class="form-group">
+        <label for="currentPw">Current Password</label>
+        <input type="password" id="currentPw" required />
+      </div>
+      <div class="form-group">
+        <label for="newPw">New Password</label>
+        <input type="password" id="newPw" placeholder="At least 8 characters" required />
+      </div>
+      <div class="form-group">
+        <label for="confirmPw">Confirm New Password</label>
+        <input type="password" id="confirmPw" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+  </div>
+
+  <!-- Display Preferences -->
+  <div class="card">
+    <h3 style="margin-bottom:16px;">Display Preferences</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <strong>Dark Mode</strong>
+        <p style="font-size:0.88rem; color:var(--color-text-muted); margin-top:2px;">
+          Switch to a dark color scheme.
+        </p>
+      </div>
+      <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" id="darkModeToggle" style="width:18px; height:18px;" />
+        <span>Enable</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+  // Load current profile on page open
+  (async function () {
+    try {
+      const res = await fetch("/users/profile");
+      if (res.status === 401) { window.location.href = "/index.html"; return; }
+      const user = await res.json();
+      document.getElementById("profileUsername").value = user.username || "";
+      document.getElementById("profileEmail").value    = user.email    || "";
+      document.getElementById("profileBio").value      = user.bio      || "";
+    } catch (err) {
+      window.location.href = "/index.html";
+    }
+  })();
+
+  // Save profile
+  document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const succEl = document.getElementById("profileSuccess");
+    const errEl  = document.getElementById("profileError");
+    succEl.classList.add("hidden");
+    errEl.classList.add("hidden");
+
+    try {
+      const res  = await fetch("/users/profile", {
+        method:  "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: document.getElementById("profileUsername").value.trim(),
+          email:    document.getElementById("profileEmail").value.trim(),
+          bio:      document.getElementById("profileBio").value.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Update failed.");
+      succEl.textContent = "Profile updated successfully.";
+      succEl.classList.remove("hidden");
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.classList.remove("hidden");
+    }
+  });
+
+  // Change password
+  document.getElementById("passwordForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const succEl = document.getElementById("pwSuccess");
+    const errEl  = document.getElementById("pwError");
+    succEl.classList.add("hidden");
+    errEl.classList.add("hidden");
+
+    const newPw     = document.getElementById("newPw").value;
+    const confirmPw = document.getElementById("confirmPw").value;
+    if (newPw !== confirmPw) {
+      errEl.textContent = "New passwords do not match.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+
+    try {
+      const res  = await fetch("/users/password", {
+        method:  "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword: document.getElementById("currentPw").value,
+          newPassword:     newPw,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Password change failed.");
+      succEl.textContent = "Password changed successfully.";
+      succEl.classList.remove("hidden");
+      document.getElementById("passwordForm").reset();
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.classList.remove("hidden");
+    }
+  });
+
+  // Logout
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await fetch("/auth/logout", { method: "POST" });
+    window.location.href = "/index.html";
+  });
+</script>
+</body>
+</html>

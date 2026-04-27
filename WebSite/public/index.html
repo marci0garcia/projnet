@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projnet - Login</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<div class="page-center">
+  <div class="card auth-card">
+    <h1 class="brand-title">Projnet</h1>
+    <p class="brand-sub">Project management and team chat, all in one place.</p>
+
+    <p id="loginError" class="error-msg hidden"></p>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Your password" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Log In</button>
+    </form>
+
+    <p class="auth-link"><a href="/register.html">Don't have an account? Register</a></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById("loginError");
+    errEl.classList.add("hidden");
+
+    try {
+      const res  = await fetch("/auth/login", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({
+          email:    document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Login failed.");
+      window.location.href = "/dashboard.html";
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.classList.remove("hidden");
+    }
+  });
+</script>
+</body>
+</html>

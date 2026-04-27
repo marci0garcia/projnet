@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projnet - Groups &amp; Chat</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="navbar">
+  <span class="logo">Projnet</span>
+  <ul class="nav-links">
+    <li><a href="/dashboard.html">Board</a></li>
+    <li><a href="/group.html" class="active">Groups &amp; Chat</a></li>
+    <li><a href="/profile.html">Profile</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn btn-secondary btn-sm" id="logoutBtn">Log Out</button>
+  </div>
+</nav>
+
+<!-- ===== Chat Layout ===== -->
+<div class="chat-layout">
+
+  <!-- Sidebar -->
+  <aside class="chat-sidebar">
+    <h4>Your Groups</h4>
+    <div id="groupList"></div>
+    <hr class="sidebar-divider" />
+    <button class="btn btn-primary btn-sm btn-full" onclick="openModal('newGroupModal')">+ New Group</button>
+  </aside>
+
+  <!-- Main chat area -->
+  <section class="chat-main">
+    <div class="chat-header">
+      <strong id="chatGroupName">Select a group</strong>
+      <button class="btn btn-secondary btn-sm" id="inviteBtn" onclick="openModal('inviteModal')" disabled>
+        Invite Member
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <p class="chat-placeholder">Select a group from the sidebar to start chatting.</p>
+    </div>
+
+    <div class="chat-input-bar">
+      <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off" disabled />
+      <button class="btn btn-primary" id="chatSendBtn" disabled>Send</button>
+    </div>
+  </section>
+</div>
+
+<!-- ===== New Group Modal ===== -->
+<div class="modal-overlay hidden" id="newGroupModal">
+  <div class="modal">
+    <h2>Create New Group</h2>
+    <p id="newGroupError" class="error-msg hidden" style="margin-bottom:10px;"></p>
+    <div class="form-group">
+      <label for="newGroupName">Group Name *</label>
+      <input type="text" id="newGroupName" placeholder="e.g. Team Alpha" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('newGroupModal')">Cancel</button>
+      <button class="btn btn-primary" id="createGroupBtn">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Invite Member Modal ===== -->
+<div class="modal-overlay hidden" id="inviteModal">
+  <div class="modal">
+    <h2>Invite a Member</h2>
+    <p id="inviteError" class="error-msg hidden" style="margin-bottom:10px;"></p>
+    <div class="form-group">
+      <label for="inviteEmail">Member's Email</label>
+      <input type="email" id="inviteEmail" placeholder="member@example.com" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('inviteModal')">Cancel</button>
+      <button class="btn btn-primary" id="inviteBtn2">Add Member</button>
+    </div>
+  </div>
+</div>
+
+<!--
+  Script loading order matters here:
+  1. socket.io client (auto-served by Socket.io at this path)
+  2. main.js  (provides openModal / closeModal used by inline handlers above)
+  3. chat.js  (provides initChat, joinGroup, currentGroupId)
+  4. Inline script that runs after all the above are parsed
+-->
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/chat.js"></script>
+<script>
+  // Fetch the logged-in user's profile to get id and username,
+  // then hand them to initChat(). Redirect to login if not authenticated.
+  (async function () {
+    try {
+      const res = await fetch("/users/profile");
+      if (res.status === 401) {
+        window.location.href = "/index.html";
+        return;
+      }
+      if (!res.ok) throw new Error("Profile fetch failed");
+      const user = await res.json();
+      // initChat is defined in chat.js (loaded above)
+      initChat(user.id, user.username);
+    } catch (err) {
+      console.error("Could not load profile:", err.message);
+      window.location.href = "/index.html";
+    }
+  })();
+
+  // Create Group button
+  document.getElementById("createGroupBtn").addEventListener("click", async () => {
+    const name   = document.getElementById("newGroupName").value.trim();
+    const errEl  = document.getElementById("newGroupError");
+    errEl.classList.add("hidden");
+
+    if (!name) {
+      errEl.textContent = "Group name is required.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+    try {
+      const res  = await fetch("/groups", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ name }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not create group.");
+      closeModal("newGroupModal");
+      document.getElementById("newGroupName").value = "";
+      // Reload the group list (loadGroups is defined in chat.js)
+      loadGroups();
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.classList.remove("hidden");
+    }
+  });
+
+  // Invite Member button (inside modal)
+  document.getElementById("inviteBtn2").addEventListener("click", async () => {
+    const email  = document.getElementById("inviteEmail").value.trim();
+    const errEl  = document.getElementById("inviteError");
+    errEl.classList.add("hidden");
+
+    // currentGroupId is a module-level variable exported by chat.js
+    if (!email || typeof currentGroupId === "undefined" || currentGroupId === null) {
+      errEl.textContent = "Select a group and enter a valid email.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+    try {
+      const res  = await fetch(`/groups/${currentGroupId}/members`, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not add member.");
+      closeModal("inviteModal");
+      document.getElementById("inviteEmail").value = "";
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.classList.remove("hidden");
+    }
+  });
+
+  // Logout
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await fetch("/auth/logout", { method: "POST" });
+    window.location.href = "/index.html";
+  });
+</script>
+</body>
+</html>

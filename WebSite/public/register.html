@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projnet - Register</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<div class="page-center">
+  <div class="card auth-card">
+    <h1 class="brand-title">Projnet</h1>
+    <p class="brand-sub">Create your account to get started.</p>
+
+    <p id="registerError" class="error-msg hidden"></p>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Choose a username" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="At least 8 characters" required />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Repeat your password" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+    </form>
+
+    <p class="auth-link">Already have an account? <a href="/index.html">Log in</a></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById("registerError");
+    errEl.classList.add("hidden");
+
+    const password        = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+      errEl.textContent = "Passwords do not match.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+
+    try {
+      const res  = await fetch("/auth/register", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({
+          username: document.getElementById("username").value.trim(),
+          email:    document.getElementById("email").value.trim(),
+          password,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Registration failed.");
+      window.location.href = "/dashboard.html";
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.classList.remove("hidden");
+    }
+  });
+</script>
+</body>
+</html>

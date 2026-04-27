@@ -1,0 +1,541 @@
+========================================================
+PROJNET - USER MANUAL
+========================================================
+
+Version:      1.0.0
+Last Updated: April 2026
+Application:  http://localhost:3000 (local installation)
+
+Welcome to Projnet-- a centralized platform for collaborative
+project management and real-time team communication. This
+manual explains how to use every feature available to you as
+an end user.
+
+========================================================
+TABLE OF CONTENTS
+========================================================
+
+1.  Getting Started
+    1.1 Accessing Projnet
+    1.2 Registering an Account
+    1.3 Logging In
+    1.4 Logging Out
+
+2.  Navigating the Application
+
+3.  Managing Tasks
+    3.1 Understanding the Task Board
+    3.2 Creating a New Task
+    3.3 Editing a Task
+    3.4 Changing Task Status (Quick Actions)
+    3.5 Deleting a Task
+    3.6 Filtering and Searching Tasks
+
+4.  Working with Groups
+    4.1 Viewing Your Groups
+    4.2 Creating a New Group
+    4.3 Inviting Members to a Group
+
+5.  Using Real-Time Chat
+    5.1 Selecting a Group Chat
+    5.2 Sending Messages
+    5.3 Viewing Message History
+
+6.  Managing Your Profile
+    6.1 Updating Account Information
+    6.2 Changing Your Password
+    6.3 Enabling Dark Mode
+
+7.  Understanding Task Status & Priority
+    7.1 Status Meanings
+    7.2 Priority Meanings
+    7.3 Overdue Tasks
+
+8.  Troubleshooting
+    8.1 I forgot my password
+    8.2 I can't log in
+    8.3 My tasks aren't loading
+    8.4 Chat messages aren't appearing
+    8.5 I can't invite someone to a group
+
+9.  Frequently Asked Questions (FAQ)
+
+========================================================
+SECTION 1: GETTING STARTED
+========================================================
+
+1.1 Accessing Projnet
+---------------------
+Projnet runs in your web browser. To access it:
+
+1. Make sure the Projnet server is running on your computer.
+   (If you're not the person who installed Projnet, ask your
+   system administrator to start the server.)
+
+2. Open any modern web browser (Chrome, Firefox, Edge, or Safari).
+
+3. Type the following address into your browser's address bar
+   and press Enter:
+   
+   http://localhost:3000
+
+4. The Projnet login page will appear.
+
+1.2 Registering an Account
+--------------------------
+If this is your first time using Projnet:
+
+1. On the login page, click the link that reads:
+   "Don't have an account? Register"
+
+2. Fill in the following fields:
+   - Username: Choose a display name (other group members will see this)
+   - Email Address: Enter a valid email address (used for login)
+   - Password: Create a password (minimum 8 characters)
+   - Confirm Password: Type your password again to confirm
+
+3. Click "Create Account"
+
+4. If successful, you will be automatically logged in and taken
+   to your Dashboard.
+
+What if I see an error?
+  - "An account with that email already exists" --> You already have an
+    account. Go back and click "Log in" instead.
+  - "Passwords do not match" --> You typed your password differently in
+    the two fields. Try again carefully.
+  - "Password must be at least 8 characters" --> Your password is too
+    short. Choose a longer password.
+
+1.3 Logging In
+--------------
+If you already have an account:
+
+1. On the login page, enter your email address and password.
+
+2. Click "Log In"
+
+3. You will be taken to your Dashboard (Task Board).
+
+What if I see "Invalid email or password"?
+  - Check that you typed your email correctly
+  - Passwords are case-sensitive (capital letters matter)
+  - If you still can't log in, contact your system administrator
+
+1.4 Logging Out
+---------------
+To log out of Projnet:
+
+1. Click the "Log Out" button in the top-right corner of any page.
+
+2. You will be returned to the login page.
+
+3. Your session will end. Anyone using the same computer after you
+   will need to log in again with their own credentials.
+
+TIP: Always log out when using Projnet on a shared or public computer.
+
+========================================================
+SECTION 2: NAVIGATING THE APPLICATION
+========================================================
+
+After logging in, you'll see a navigation bar at the top of every page:
+
+┌─────────────────────────────────────────────────────────────┐
+│  Projnet    Board   Groups & Chat   Profile        [Log Out] │
+└─────────────────────────────────────────────────────────────┘
+
+Click any link to navigate:
+  - Projnet (logo): Returns to the Task Board
+  - Board: Your task management workspace
+  - Groups & Chat: Team collaboration and messaging
+  - Profile: Your account settings
+  - Log Out: Ends your session
+
+========================================================
+SECTION 3: MANAGING TASKS
+========================================================
+
+3.1 Understanding the Task Board
+--------------------------------
+The Task Board organizes your tasks into columns by status:
+
+┌──────────────┬──────────────┬──────────────┬──────────────┐
+│   To Do      │ In Progress  │  Completed   │   Overdue    │
+│  ┌────────┐  │  ┌────────┐  │  ┌────────┐  │  ┌────────┐  │
+│  │ Task 1 │  │  │ Task 3 │  │  │ Task 5 │  │  │ Task 2 │  │
+│  └────────┘  │  └────────┘  │  └────────┘  │  │ (Late)  │  │
+│  ┌────────┐  │              │              │  └────────┘  │
+│  │ Task 4 │  │              │              │              │
+│  └────────┘  │              │              │              │
+└──────────────┴──────────────┴──────────────┴──────────────┘
+
+Each task card shows:
+  - Task title (bold text)
+  - Priority badge (High = Red, Medium = Yellow, Low = Green)
+  - Deadline date (or "No deadline" if none set)
+  - Action buttons (Start, Complete, Reopen, Edit)
+
+3.2 Creating a New Task
+-----------------------
+1. On the Board page, click the "+ New Task" button (top-right).
+
+2. A form will appear. Fill in:
+   - Title (required): A short name for the task
+   - Description (optional): Detailed notes about the task
+   - Deadline (optional): Date when the task should be completed
+   - Priority: Low, Medium, or High (default is Medium)
+
+3. Click "Save Task"
+
+4. Your new task will appear in the "To Do" column immediately.
+
+To cancel without saving, click "Cancel" or click outside the form.
+
+3.3 Editing a Task
+------------------
+To edit a task's details:
+
+1. Click on any task card on the board (or click the "✎ Edit" button).
+
+2. The edit form will open. You can change:
+   - Title
+   - Description
+   - Deadline
+   - Priority (Low/Medium/High)
+   - Status (To Do / In Progress / Completed)
+
+3. Click "Save Changes"
+
+4. The task will update and move to the correct column automatically.
+
+3.4 Changing Task Status (Quick Actions)
+----------------------------------------
+You can change a task's status without opening the edit form:
+
+On each task card, you'll see action buttons:
+
+  Task Title
+  [High]  [2026-05-15]
+  [▶ Start]  [✓ Complete]  [✎ Edit]
+
+Available buttons by task status:
+
+| Current Status | Buttons Shown                    |
+|----------------|----------------------------------|
+| To Do          | ▶ Start, ✓ Complete, ✎ Edit      |
+| In Progress    | ✓ Complete, ✎ Edit               |
+| Completed      | ↩ Reopen, ✎ Edit                 |
+| Overdue        | ▶ Start, ✓ Complete, ✎ Edit      |
+
+Click:
+  - ▶ Start: Moves task from "To Do" to "In Progress"
+  - ✓ Complete: Moves task to "Completed" column
+  - ↩ Reopen: Moves task back to "In Progress" (from Completed)
+  - ✎ Edit: Opens full edit form
+
+3.5 Deleting a Task
+-------------------
+1. Click on the task card (or click "✎ Edit") to open the edit form.
+
+2. Click the red "Delete" button.
+
+3. A confirmation dialog will appear:
+   "Delete this task? This cannot be undone."
+
+4. Click "OK" to confirm, or "Cancel" to keep the task.
+
+IMPORTANT: Deletion is permanent. Once deleted, a task cannot be recovered.
+
+3.6 Filtering and Searching Tasks
+---------------------------------
+Above the task board, you'll find a toolbar:
+
+  [Search tasks...] [All Statuses ▼] [All Priorities ▼] [+ New Task]
+
+Use these to find specific tasks:
+
+- Search Box: Type any word. Only tasks containing that word in
+  the title or description will appear. Clear the box to show all.
+
+- Status Filter: Select a status (To Do, In Progress, Completed, Overdue)
+  to show only tasks in that column.
+
+- Priority Filter: Select Low, Medium, or High to show only tasks
+  with that priority level.
+
+You can combine filters. Example: Search for "homepage" + Status "To Do"
++ Priority "High" shows only high-priority homepage tasks not started yet.
+
+========================================================
+SECTION 4: WORKING WITH GROUPS
+========================================================
+
+Groups allow you to collaborate with other Projnet users. Each group
+has its own task board (shared) and chat channel.
+
+4.1 Viewing Your Groups
+-----------------------
+Click "Groups & Chat" in the navigation bar.
+
+On the left side of the page, you'll see a sidebar listing all groups
+you belong to. Click any group name to open that group's chat.
+
+4.2 Creating a New Group
+------------------------
+1. On the Groups & Chat page, click the "+ New Group" button
+   (in the left sidebar).
+
+2. Enter a name for your group (e.g., "Team Alpha" or "Project Phoenix").
+
+3. Click "Create".
+
+4. The new group will appear in your sidebar. You'll automatically be
+   added as the first member.
+
+4.3 Inviting Members to a Group
+-------------------------------
+1. In the Groups & Chat page, click the group you want to add members to.
+
+2. Click the "Invite Member" button (top-right of the chat area).
+
+3. Enter the email address of the person you want to invite.
+
+   IMPORTANT: The person must already have a Projnet account!
+   If they haven't registered yet, ask them to create an account first.
+
+4. Click "Add Member".
+
+5. If the email exists, the person will be added immediately. They will
+   see the group in their sidebar the next time they load the page.
+
+What if I see "No Projnet account found for that email"?
+  --> That person hasn't registered yet. Ask them to create an account,
+    then try inviting them again.
+
+========================================================
+SECTION 5: USING REAL-TIME CHAT
+========================================================
+
+5.1 Selecting a Group Chat
+--------------------------
+1. Go to Groups & Chat page.
+
+2. Click any group name in the left sidebar.
+
+3. The chat area on the right will load:
+   - The group name at the top
+   - Recent messages (up to 200 most recent)
+   - A text input box at the bottom
+
+5.2 Sending Messages
+--------------------
+1. Type your message in the text box at the bottom.
+
+2. Press "Enter" on your keyboard OR click the "Send" button.
+
+3. Your message appears immediately. All other group members who have
+   this page open will see your message in real time-- no refresh needed!
+
+Tips:
+  - Messages appear with your username and timestamp
+  - There's no character limit (but keep messages reasonable)
+  - All messages are saved and will appear when you re-open the group
+
+5.3 Viewing Message History
+---------------------------
+When you open a group chat, Projnet automatically loads the last 200
+messages sent in that group. Older messages are not displayed to keep
+the chat fast, but you can scroll up to see earlier messages (up to 200).
+
+========================================================
+SECTION 6: MANAGING YOUR PROFILE
+========================================================
+
+Click "Profile" in the navigation bar to access your account settings.
+
+6.1 Updating Account Information
+--------------------------------
+Under "Account Information":
+
+1. Edit any of these fields:
+   - Username: Your display name (what others see)
+   - Email: Your login email address
+   - Bio: A short description about yourself (optional)
+
+2. Click "Save Changes"
+
+3. A green confirmation message will appear if successful.
+
+What if I see "That email is already used by another account"?
+  --> Another user already has that email address. Choose a different one.
+
+6.2 Changing Your Password
+--------------------------
+Under "Security":
+
+1. Enter your Current Password (to verify your identity)
+
+2. Enter your New Password (minimum 8 characters)
+
+3. Confirm your New Password (type it again)
+
+4. Click "Change Password"
+
+5. A green message confirms the change. Your old password will no
+   longer work.
+
+What if I see "Current password is incorrect"?
+  --> You typed your existing password wrong. Try again.
+
+6.3 Enabling Dark Mode
+----------------------
+Under "Display Preferences":
+
+1. Check the "Enable" box next to "Dark Mode".
+
+2. The entire page will immediately switch to a dark color scheme.
+
+3. Uncheck to return to light mode.
+
+Your preference is saved in your browser. Dark mode will remain on or off
+the next time you visit Projnet on the same browser.
+
+========================================================
+SECTION 7: UNDERSTANDING TASK STATUS & PRIORITY
+========================================================
+
+7.1 Status Meanings
+-------------------
+| Status       | Meaning                                      |
+|--------------|----------------------------------------------|
+| To Do        | Task has been created but not started yet    |
+| In Progress  | Task is currently being worked on            |
+| Completed    | Task is finished (no further action needed)  |
+| Overdue      | Deadline has passed without completion       |
+
+Note: Completed tasks never show as Overdue, even if the deadline passed.
+
+7.2 Priority Meanings
+---------------------
+| Priority | Color  | When to Use                               |
+|----------|--------|-------------------------------------------|
+| High     | Red    | Critical, must be done immediately        |
+| Medium   | Yellow | Important but not urgent                  |
+| Low      | Green  | Can wait, nice to have                    |
+
+7.3 Overdue Tasks
+-----------------
+Tasks automatically become "Overdue" when:
+  - They have a deadline date set
+  - The current date is after the deadline
+  - The task is NOT marked as "Completed"
+
+Overdue tasks:
+  - Move to the red "Overdue" column automatically
+  - Show a red warning label: "⚠️ Overdue: [date]"
+  - Have a red left border for visibility
+  - Can still be started or completed using the action buttons
+
+To fix an overdue task:
+  - Click "▶ Start" to begin working on it
+  - Click "✓ Complete" to mark it done (even if late)
+  - Edit the task and change the deadline to a future date
+
+========================================================
+SECTION 8: TROUBLESHOOTING
+========================================================
+
+8.1 I forgot my password
+------------------------
+Contact your Projnet system administrator. They can manually reset
+your password in the database. (Automated password reset via email
+is planned for a future version.)
+
+8.2 I can't log in
+------------------
+Try these steps:
+  1. Make sure the server is running (ask your administrator)
+  2. Check that you're using the correct email address
+  3. Passwords are case-sensitive-- check your Caps Lock key
+  4. Try registering a new account if you're unsure
+
+8.3 My tasks aren't loading
+---------------------------
+If you see a red error message at the top of the board:
+  1. Refresh the page (F5 or Ctrl+R)
+  2. Log out and log back in
+  3. Contact your administrator if the problem persists (server may be down)
+
+8.4 Chat messages aren't appearing
+----------------------------------
+If messages aren't sending or appearing:
+  1. Make sure you're in a group (create one if you have none)
+  2. Refresh the page
+  3. Check that others are in the same group
+  4. Try logging out and back in
+
+8.5 I can't invite someone to a group
+-------------------------------------
+The person must have a Projnet account first. Ask them to:
+  1. Go to http://localhost:3000
+  2. Click "Register" and create an account
+  3. After they register, try inviting them again
+
+========================================================
+SECTION 9: FREQUENTLY ASKED QUESTIONS (FAQ)
+========================================================
+
+Q: Can I use Projnet on my phone?
+A: Yes! Projnet is designed to work on mobile browsers. On very small
+   screens, the group sidebar hides automatically to save space.
+
+Q: How many tasks can I create?
+A: There's no limit. You can create as many tasks as you need.
+
+Q: Are my tasks visible to other people?
+A: Tasks are personal by default-- only you can see them. Groups have
+   shared boards where all members can see the group's tasks.
+
+Q: What happens if I close my browser?
+A: All your tasks, groups, and messages are saved in the database.
+   Everything will be there when you log back in.
+
+Q: Can I assign a task to another team member?
+A: The current version associates tasks with the person who created them.
+   Task assignment to specific group members is planned for a future release.
+
+Q: How long are chat messages saved?
+A: All messages are saved permanently. The chat loads the 200 most recent
+   messages for performance, but all messages remain in the database.
+
+Q: Can I edit a message after sending it?
+A: Not yet. This feature is planned for a future version.
+
+Q: Can I delete a chat message?
+A: Currently, messages cannot be deleted. This is planned for a future
+   release with admin controls.
+
+Q: Why do I see "Overdue" tasks that I already completed?
+A: Completed tasks never show as Overdue. If a completed task appears
+   in Overdue, it may be a bug-- try refreshing the page.
+
+Q: Can I export my tasks to a file?
+A: Not in this version. Export to CSV/PDF is planned for a future release.
+
+Q: Does Projnet work offline?
+A: No. Projnet requires an active connection to the server.
+
+========================================================
+SUPPORT
+========================================================
+
+If you encounter problems not covered in this manual:
+
+1. Contact your Projnet system administrator
+2. Check the server console for error messages
+3. Review the Installation Guide (for administrators)
+
+========================================================
+END OF USER MANUAL
+========================================================

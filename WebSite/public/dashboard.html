@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projnet - Board</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="navbar">
+  <span class="logo">Projnet</span>
+  <ul class="nav-links">
+    <li><a href="/dashboard.html" class="active">Board</a></li>
+    <li><a href="/group.html">Groups &amp; Chat</a></li>
+    <li><a href="/profile.html">Profile</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span id="loadingSpinner" class="spinner hidden"></span>
+    <button class="btn btn-secondary btn-sm" id="logoutBtn">Log Out</button>
+  </div>
+</nav>
+
+<!-- ===== Board Container ===== -->
+<div class="container">
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <h2>Task Board</h2>
+    <div class="toolbar-controls">
+      <input type="text"  id="searchInput"    placeholder="Search tasks..." class="input-sm" />
+      <select id="filterStatus"   class="input-sm">
+        <option value="">All Statuses</option>
+        <option value="To Do">To Do</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+        <option value="Overdue">Overdue</option>
+      </select>
+      <select id="filterPriority" class="input-sm">
+        <option value="">All Priorities</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <button class="btn btn-primary btn-sm" onclick="openModal('newTaskModal')">+ New Task</button>
+    </div>
+  </div>
+
+  <p id="globalError" class="error-msg hidden" style="margin-bottom:12px;"></p>
+
+  <!-- Board columns -->
+  <div class="board">
+    <div class="board-column">
+      <h3>To Do</h3>
+      <div id="col-To Do"></div>
+    </div>
+    <div class="board-column">
+      <h3>In Progress</h3>
+      <div id="col-In Progress"></div>
+    </div>
+    <div class="board-column">
+      <h3>Completed</h3>
+      <div id="col-Completed"></div>
+    </div>
+    <div class="board-column">
+      <h3>Overdue</h3>
+      <div id="col-Overdue"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== New Task Modal ===== -->
+<div class="modal-overlay hidden" id="newTaskModal">
+  <div class="modal">
+    <h2>New Task</h2>
+    <p id="newTaskError" class="error-msg hidden" style="margin-bottom:10px;"></p>
+    <form id="newTaskForm">
+      <div class="form-group">
+        <label for="newTitle">Title *</label>
+        <input type="text" id="newTitle" placeholder="Task title" required />
+      </div>
+      <div class="form-group">
+        <label for="newDesc">Description</label>
+        <textarea id="newDesc" placeholder="Optional notes"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="newDeadline">Deadline</label>
+        <input type="date" id="newDeadline" />
+      </div>
+      <div class="form-group">
+        <label for="newPriority">Priority</label>
+        <select id="newPriority">
+          <option value="Low">Low</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('newTaskModal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Task</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Edit Task Modal ===== -->
+<div class="modal-overlay hidden" id="editTaskModal">
+  <div class="modal">
+    <h2>Edit Task</h2>
+    <p id="editTaskError" class="error-msg hidden" style="margin-bottom:10px;"></p>
+    <form id="editTaskForm">
+      <input type="hidden" id="editTaskId" />
+      <div class="form-group">
+        <label for="editTitle">Title *</label>
+        <input type="text" id="editTitle" required />
+      </div>
+      <div class="form-group">
+        <label for="editDesc">Description</label>
+        <textarea id="editDesc"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="editDeadline">Deadline</label>
+        <input type="date" id="editDeadline" />
+      </div>
+      <div class="form-group">
+        <label for="editPriority">Priority</label>
+        <select id="editPriority">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editStatus">Status</label>
+        <select id="editStatus">
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-sm" id="deleteTaskBtn">Delete</button>
+        <button type="button" class="btn btn-secondary"     onclick="closeModal('editTaskModal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- main.js handles all board logic -->
+<script src="/js/main.js"></script>
+</body>
+</html>
